@@ -6,7 +6,9 @@ import java.util.Scanner;
 
 public class ChatServerImplement extends UnicastRemoteObject implements ChatServer
 {
+  //list of users connected to Chat server
   private LinkedList <ChatClient> clients;
+  //list of message history
   private ArrayList <String> history;
 
   public ChatServerImplement() throws RemoteException {
@@ -17,28 +19,39 @@ public class ChatServerImplement extends UnicastRemoteObject implements ChatServ
 
   public synchronized void SendMessage(String message, String who, char mode) throws RemoteException {
     
+    //if type=='s' -- don't forget to add the message to history
     if (mode == 's') {
       history.add(who + " said " + message);
     }
     
+    //send all the information to each user
     for (int i = 0; i < clients.size(); i++)
       clients.get(i).receive(message, who, mode);
   }
 
+
   public synchronized void Connect(ChatClient c) throws RemoteException {
+    //add a new user to the list
     clients.add(c); 
     
     if (!history.isEmpty()) {
+      //send to user all the messages from history
       for (int i = 0; i < history.size(); i++) {
         c.receive(history.get(i), "", 'h');  
       }  
     }
 
+    //notify everybody that a new user has come
     SendMessage(" has entered chat", c.GetName(), 'e');
   }
 
+
   public void Disconnect(ChatClient c) throws RemoteException {
+    
+    //remove user from the list of users
     clients.remove(c); 
+    
+    //notify everybody that user has left the chat
     SendMessage(" has left chat", c.GetName(), 'l');
   }
 
