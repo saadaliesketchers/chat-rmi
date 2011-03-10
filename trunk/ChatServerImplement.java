@@ -21,7 +21,7 @@ public class ChatServerImplement extends UnicastRemoteObject implements ChatServ
     
     //if type=='s' -- don't forget to add the message to history
     if (mode == 's') {
-      history.add(who + " said " + message);
+      history.add(who + " have said " + message);
     }
     
     //send all the information to each user
