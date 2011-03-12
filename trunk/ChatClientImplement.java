@@ -9,6 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 
 public class ChatClientImplement extends UnicastRemoteObject implements ChatClient, Runnable
@@ -32,11 +37,12 @@ public class ChatClientImplement extends UnicastRemoteObject implements ChatClie
       switch(mode) {
         //if 'who' user has said 'message'
         case 's':
+		  //Behrooz: To add "addHist(who + ": " + message)" function here
           text_area.append(who + ": " + message + "\n");
           break;
         //if 'who' user has entered the chat
         case 'e':
-          text_area.append(who + " has entered the chat\n\n");
+		  text_area.append(who + " has entered the chat\n\n");
           break;
         //if 'who' user has left the chat
         case 'l':
