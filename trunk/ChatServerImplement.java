@@ -3,6 +3,10 @@ import java.rmi.server.*;
 import java.util.*;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ChatServerImplement extends UnicastRemoteObject implements ChatServer
 {
@@ -33,7 +37,7 @@ public class ChatServerImplement extends UnicastRemoteObject implements ChatServ
   public synchronized void Connect(ChatClient c) throws RemoteException {
     //add a new user to the list
     clients.add(c); 
-    
+	//Behrooz: To add "initHist()" function here	
     if (!history.isEmpty()) {
       //send to user all the messages from history
       for (int i = 0; i < history.size(); i++) {
@@ -50,6 +54,7 @@ public class ChatServerImplement extends UnicastRemoteObject implements ChatServ
     
     //remove user from the list of users
     clients.remove(c); 
+	//Behrooz: To add "endHist()" function here
     
     //notify everybody that user has left the chat
     SendMessage(" has left chat", c.GetName(), 'l');
